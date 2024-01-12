@@ -20,7 +20,7 @@ function ipaddress(){
 }
 
 function pda(){
-    $pda = Read-Host -Prompt "Input the PDA number: "
+    [int]$pda = Read-Host -Prompt "Input the PDA number: "
     $date = Get-Date -DisplayHint Date -Format "dd-MM-yyyy"
 
     if ( [string]::IsNullOrWhiteSpace($pda) ){
