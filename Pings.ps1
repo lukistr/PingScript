@@ -20,17 +20,18 @@ function ipaddress(){
 }
 
 function pda(){
-    [int]$pda = Read-Host -Prompt "Input the PDA number: "
+    $pda = Read-Host -Prompt "Input the PDA number: "
+    $date = Get-Date -DisplayHint Date -Format "dd-MM-yyyy"
 
-    if ( $pda -ne "" ){
-        if ( Test-Path ".\log" ) {
-            ping -t $ipaddress | ForEach {"{0} - {1}" -f (Get-Date),$_} | Tee-Object -FilePath "./log/pda$pda.txt" -Append
-        } else {
-            New-Item -Path "." -Name "log" -ItemType Directory
-            ping -t $ipaddress | ForEach {"{0} - {1}" -f (Get-Date),$_} | Tee-Object -FilePath "./log/pda$pda.txt" -Append
-        }
-    } else{
+    if ( [string]::IsNullOrWhiteSpace($pda) ){
         pda
+    } else{
+        if ( Test-Path ".\logs" ) {
+            ping -t $ipaddress | ForEach {"{0} - {1}" -f (Get-Date),$_} | Tee-Object -FilePath "./logs/$pda $date.txt" -Append
+        } else {
+            New-Item -Path "." -Name "logs" -ItemType Directory
+            ping -t $ipaddress | ForEach {"{0} - {1}" -f (Get-Date),$_} | Tee-Object -FilePath "./logs/$pda $date.txt" -Append
+        }
     }
 }
 
